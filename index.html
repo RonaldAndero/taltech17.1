@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Figure Drawing</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<canvas id="myCanvas" width="250" height="300"></canvas>
+
+<script>
+    // Retrieve the canvas element
+    const canvas = document.getElementById("myCanvas");
+    // Get the drawing context
+    const ctx = canvas.getContext("2d");
+
+    // Define the InchesToCm calculator
+    class InchesToCm {
+        calculate(inches) {
+            return inches * 2.54;
+        }
+        inputUnit() {
+            return "in";
+        }
+        outputUnit() {
+            return "cm";
+        }
+        calculateSpeed(speedKph) {
+            return speedKph / 3.6;
+        }
+        calculatePower(voltage, resistance) {
+            const current = voltage / resistance;
+            return voltage * current;
+        }
+    }
+
+    // Define the Figure class
+    class Figure {
+        constructor(calculator, g) {
+            this.calculator = calculator;
+            this.g = g;
+            this.draw();
+        }
+        draw() {
+            for (let i = 0; i < 25; i++) {
+                this.g.fillRect(
+                    10 * i,
+                    300 - 10 * this.calculator.calculate(i),
+                    3,
+                    3
+                );
+            }
+        }
+        calculateSpeed(speedKph) {
+            return this.calculator.calculateSpeed(speedKph);
+        }
+        calculatePower(voltage, resistance) {
+            return this.calculator.calculatePower(voltage, resistance);
+        }
+    }
+
+    // Create an instance of InchesToCm calculator
+    const inchesToCm = new InchesToCm();
+
+    // Create an instance of Figure and pass the calculator and the drawing context
+    const figure = new Figure(inchesToCm, ctx);
+
+    // Example calculations
+    const speedKph = 60; // Example speed in kilometers per hour
+    const speedMps = figure.calculateSpeed(speedKph);
+    console.log("Speed in meters per second:", speedMps);
+
+    const voltage = 12; // Example voltage in volts
+    const resistance = 100; // Example resistance in ohms
+    const power = figure.calculatePower(voltage, resistance);
+    console.log("Power:", power);
+</script>
+</body>
+</html>
